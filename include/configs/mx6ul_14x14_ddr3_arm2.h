@@ -8,7 +8,8 @@
 #ifndef __MX6UL_14X14_DDR3_ARM2_CONFIG_H
 #define __MX6UL_14X14_DDR3_ARM2_CONFIG_H
 
-#define CONFIG_DEFAULT_FDT_FILE  "imx6ul-14x14-ddr3-arm2.dtb"
+/*#define CONFIG_DEFAULT_FDT_FILE  "imx6ul-14x14-ddr3-arm2.dtb"*/
+#define CONFIG_DEFAULT_FDT_FILE  "imx6ul-14x14-lpddr2-arm2.dtb"
 
 #ifdef CONFIG_SYS_BOOT_QSPI
 #define CONFIG_SYS_USE_QSPI

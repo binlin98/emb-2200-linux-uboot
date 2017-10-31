@@ -153,6 +153,7 @@ static iomux_v3_cfg_t const usdhc1_pads[] = {
 };
 #endif
 
+#if 0
 #if !defined(CONFIG_SYS_USE_NAND)
 static iomux_v3_cfg_t const usdhc2_pads[] = {
 	MX6_PAD_CSI_VSYNC__USDHC2_CLK | MUX_PAD_CTRL(USDHC_PAD_CTRL),
@@ -184,7 +185,27 @@ static iomux_v3_cfg_t const usdhc2_pads[] = {
 	MX6_PAD_NAND_ALE__GPIO4_IO10 | MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 #endif
+#endif
 
+static iomux_v3_cfg_t const usdhc2_pads[] = {
+	MX6_PAD_NAND_RE_B__USDHC2_CLK | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_NAND_WE_B__USDHC2_CMD | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_NAND_DATA00__USDHC2_DATA0 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_NAND_DATA01__USDHC2_DATA1 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_NAND_DATA02__USDHC2_DATA2 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_NAND_DATA03__USDHC2_DATA3 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_NAND_DATA04__USDHC2_DATA4 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_NAND_DATA05__USDHC2_DATA5 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_NAND_DATA06__USDHC2_DATA6 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_NAND_DATA07__USDHC2_DATA7 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+
+	/* Default NO WP for emmc, since we use pull down */
+	MX6_PAD_UART1_CTS_B__USDHC2_WP | MUX_PAD_CTRL(USDHC_PAD_CTRL_WP),
+
+	/* RST_B */
+	MX6_PAD_NAND_ALE__GPIO4_IO10 | MUX_PAD_CTRL(NO_PAD_CTRL),
+};
+	
 #ifdef CONFIG_SYS_USE_NAND
 static iomux_v3_cfg_t const nand_pads[] = {
 	MX6_PAD_NAND_DATA00__RAWNAND_DATA00 | MUX_PAD_CTRL(GPMI_PAD_CTRL2),
@@ -529,10 +550,12 @@ int board_mmc_getcd(struct mmc *mmc)
 #else
 		ret = !gpio_get_value(USDHC1_CD_GPIO);
 #endif
+		ret = 1;
 		break;
 #if !defined(CONFIG_SYS_USE_NAND)
 	case USDHC2_BASE_ADDR:
 		ret = !gpio_get_value(USDHC2_CD_GPIO);
+		ret = 1;
 		break;
 #endif
 	}
@@ -807,6 +830,7 @@ int power_init_board(void)
 	int ret;
 	u32 rev_id, value;
 
+	return 0;
 	ret = power_pfuze100_init(I2C_PMIC);
 	if (ret)
 		return ret;
